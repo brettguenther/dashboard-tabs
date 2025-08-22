@@ -47,6 +47,7 @@ You can use this extension multiple times with different configuration options b
 - Apply filters that persist across all dashboard switches
 - Save your URL to come back to the same state with the same filters
 - Use predefined dashboard lists, folders, or boards as your tab sources, or hide them away!
+- Toggle between different dashboard layout types
 
 ### Navigation Modes
 
@@ -94,6 +95,7 @@ The extension provides comprehensive settings management through an intuitive Se
 - Set the main background color for the extension interface
 - Configure colors for dashboard tiles and paper elements
 - Toggle the branded loading screen on/off
+- Configure the dashboard layout itself (4 column, single column or unset)
 
 ## Required API Permissions
 

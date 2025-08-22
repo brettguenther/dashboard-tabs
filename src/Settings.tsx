@@ -9,6 +9,7 @@ import {
   InputSearch,
   InputText,
   Label,
+  Select,
   Space,
   SpaceVertical,
   Span,
@@ -42,7 +43,7 @@ const Settings: React.FC = () => {
         })
       )
   );
-  const { is_admin } = useAppContext();
+  const { is_admin, updateLayout } = useAppContext();
   const {
     config: config_data,
     updateConfig,
@@ -66,6 +67,7 @@ const Settings: React.FC = () => {
         config_data.save_board_from_adhoc_dashboards || true,
       background_color: config_data.background_color,
       paper_color: config_data.paper_color,
+      layout: config_data.layout
     } as IExtensionConfig,
     validate: async (values) => {
       let errors: Partial<{ [key in keyof IExtensionConfig]: string }> = {};
@@ -276,6 +278,25 @@ const Settings: React.FC = () => {
                   </Label>
                 </Space>
               )}
+            <Divider />
+            <Space>
+              <Label>Customize Dashboard Tile Layout</Label>
+              <Select 
+                placeholder="Select your desired dashboard layout"
+                options={[
+                  { label: 'Single Column', value: 'newspaper' },
+                  { label: '4 Column', value: 'grid' },
+                  { label: 'Unset', value: 'unset'}
+                ]}
+                onChange={(e: string) => {
+                  formik.setFieldValue(
+                    'layout',
+                    e
+                  )
+                }}
+                value={values.layout}
+              />
+            </Space>
             <Divider />
             <Space>
               <Checkbox

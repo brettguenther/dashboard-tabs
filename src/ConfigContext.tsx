@@ -38,6 +38,7 @@ export interface IExtensionConfig {
   save_board_from_adhoc_dashboards?: boolean;
   background_color?: string;
   paper_color?: string;
+  layout: string;
 }
 
 export const ConfigContext = createContext<TConfigContext>({} as any);
@@ -78,6 +79,7 @@ const ConfigContextProvider: React.FC<{ children: React.ReactNode }> = ({
       background_color:
         config_data.background_color ?? DEFAULT_DASHBOARD_BACKGROUND_COLOR,
       paper_color: config_data.paper_color ?? DEFAULT_DASHBOARD_PAPER_COLOR,
+      layout: config_data.layout ?? undefined
     }),
     [config_data]
   );

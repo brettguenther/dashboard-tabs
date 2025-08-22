@@ -8,6 +8,7 @@ module.exports = merge(common, {
   },
   devServer: {
     host: "localhost",
+    hot: true,
     allowedHosts: "all",
     // webSocketServer: false,
     headers: {

@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "main": "webpack.config.js",
   "scripts": {
-    "dev:https": "NODE_ENV=development webpack serve --server-type https --hot --mode development --config webpack.dev.js",
+    "dev:https": "NODE_ENV=development webpack serve --server-type https --port 8080 --hot --mode development --config webpack.dev.js",
     "build": "NODE_ENV=production webpack --mode production",
-    "dev": "NODE_ENV=development webpack serve --mode development --config webpack.dev.js"
+    "dev": "NODE_ENV=development webpack serve --mode development --port 8080 --config webpack.dev.js"
   },
   "keywords": [],
   "author": "",

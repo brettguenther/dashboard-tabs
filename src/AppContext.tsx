@@ -1,4 +1,4 @@
-import { ILookerConnection } from "@looker/embed-sdk";
+import { ILookerConnection, LookerDashboardOptions } from "@looker/embed-sdk";
 import { IUser } from "@looker/sdk";
 import React, { createContext, useContext, useMemo, useRef } from "react";
 import { useHistory, useLocation } from "react-router-dom";
@@ -23,6 +23,8 @@ interface AppContextType {
   setDashboard: React.Dispatch<
     React.SetStateAction<ILookerConnection | undefined>
   >;
+  dashboardLayout: LookerDashboardOptions | undefined;
+  setDashboardLayout: React.Dispatch<React.SetStateAction<LookerDashboardOptions | undefined>>;
   updateGlobalFilters: (filters: GlobalFilters) => void;
   folder_id?: string;
   board_id?: string;
@@ -38,6 +40,7 @@ interface AppContextType {
     global_filters?: boolean
   ) => void;
   updateDashboardTheme: (theme: DashboardTheme) => void;
+  updateLayout: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -52,6 +55,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [dashboard_theme, setDashboardTheme] = React.useState<DashboardTheme>({
     background_color: DEFAULT_DASHBOARD_BACKGROUND_COLOR,
   });
+  const [dashboardLayout, setDashboardLayout] = React.useState<LookerDashboardOptions | undefined>()
 
   const current_search_ref = useRef(
     Object.fromEntries(new URLSearchParams(location.search))
@@ -181,6 +185,15 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
     updateSearchParams(filters);
   };
 
+  const updateLayout = React.useCallback(() => {
+    if(!dashboard || dashboardLayout?.layouts === undefined) return;
+        const { column_width, width, ...rest } = dashboardLayout?.layouts[0]
+        dashboard?.asDashboardConnection().setOptions({
+          elements: dashboardLayout?.elements,
+          layouts: [{ ...rest, column_width: 10, width: 10 }]
+    })
+  }, [dashboard, dashboardLayout])
+
   return (
     <AppContext.Provider
       value={{
@@ -188,6 +201,8 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
         isLoading,
         dashboard,
         setDashboard,
+        dashboardLayout,
+        setDashboardLayout,
         updateGlobalFilters,
         folder_id,
         board_id,
@@ -202,6 +217,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({
         updateDashboardTheme: (theme: DashboardTheme) => {
           setDashboardTheme(theme);
         },
+        updateLayout
       }}
     >
       <ToastProvider>{children}</ToastProvider>
